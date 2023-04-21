@@ -22,7 +22,7 @@ import { Link as ReactLink } from 'react-router-dom';
 import Auth from "../utils/auth";
 import { QUERY_ME } from '../utils/queries';
 // redirect -----
-import { useNavigate  } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const errorStyle = {
   fontWeight: '700',
@@ -41,11 +41,11 @@ export default function Signup() {
   // redirect -----
   const navigate = useNavigate()
 
-  const [addUser, { error, data }] = useMutation(ADD_USER, 
+  const [addUser, { error, data }] = useMutation(ADD_USER,
     {
-    refetchQueries: [
-      {query: QUERY_ME}
-    ]
+      refetchQueries: [
+        { query: QUERY_ME }
+      ]
     }
   );
 
@@ -57,21 +57,14 @@ export default function Signup() {
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
-    const response = await fetch("", {
+    const response = await fetch("http://localhost:4001/graphql", {
       method: "POST",
       body: JSON.stringify({
-        email: email.value,
-        password: password.value,
-        username: username.value,
+
       }),
       headers: { "Content-Type": "application/json" },
     });
-    if (response.ok) {
-      document.location.replace("/profile");
-    } else {
-      alert("sign up failed");
-    }
-  });
+
 
     // use addUser function
     try {
@@ -80,13 +73,12 @@ export default function Signup() {
       });
 
       Auth.login(data.addUser.token);
-      
+
       setUserFormData({
-        username: "",
         email: "",
         password: "",
       });
-  
+
       //redirect ----
       const path = '/dashboard'
       navigate(path)
@@ -96,7 +88,7 @@ export default function Signup() {
       console.error(e);
     }
 
-    
+
   };
 
 

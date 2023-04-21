@@ -49,11 +49,10 @@ export default function LoginForm() {
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
-    const response = await fetch("", {
+    const response = await fetch("http://localhost:4001/graphql", {
       method: "POST",
       body: JSON.stringify({
-        email: email.value,
-        password: password.value,
+     
       }),
       
     });
@@ -62,11 +61,12 @@ export default function LoginForm() {
     } else {
       alert("login failed");
     }
-  };
+  
+
 
     // use loginUser function
     try {
-      const { data } = await loginUser({
+      const { data } = await response({
         variables: { ...userFormData },
       });
 
@@ -85,8 +85,8 @@ export default function LoginForm() {
     } catch (e) {
       console.error(e);
     }
-
-  };
+  }
+  
 
 
   return (
